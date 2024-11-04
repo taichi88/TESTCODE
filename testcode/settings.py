@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import sys
+
 
 from pathlib import Path
 
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'monitoring.middleware.UserMonitoringMiddleware'
 ]
 
 ROOT_URLCONF = 'testcode.urls'
@@ -83,6 +86,33 @@ DATABASES = {
     }
 }
 
+LOGGING={
+    "version":1,
+    "disable_existing_loggers":False,
+    "formatters":{
+        "verbose":{"format":"[%(levelname)s %(asctime)s] %(message)s"},
+        "simple":{"format":"[%(levelname)s %(asctime)s]"},
+
+    },
+    "handlers": {
+
+        "console":{
+            "class":"logging.StreamHandler",
+            "stream":sys.stdout,
+            "formatter":"verbose",
+        }
+
+    },
+    "loggers":
+        {
+            "root":{
+                "handlers":["console"],
+                "level":"INFO"
+            }
+        }
+
+
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
